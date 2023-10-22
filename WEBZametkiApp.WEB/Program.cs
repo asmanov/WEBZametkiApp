@@ -1,9 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using WEBZametkiApp.DAL.EF;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<NoteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defaultconnection"), 
+    x => x.MigrationsAssembly("WEBZametkiApp.WEB")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
