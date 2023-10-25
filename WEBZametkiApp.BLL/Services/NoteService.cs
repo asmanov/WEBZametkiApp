@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WEBZametkiApp.BLL.DTO;
+using WEBZametkiApp.BLL.Infrastructure;
 using WEBZametkiApp.BLL.Interfaces;
+using WEBZametkiApp.BLL.Mapper;
 using WEBZametkiApp.DAL.Entities;
 using WEBZametkiApp.DAL.Interfaces;
 
@@ -21,17 +23,30 @@ namespace WEBZametkiApp.BLL.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database.Dispose();
         }
 
         public NoteDTO GetNote(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null) throw new ValidationException("Have not Note Id", "");
+            Note note = Database.Notes.GetById(id.Value);
+            if (note == null)
+            {
+                throw new ValidationException("Note don't found", "");
+            }
+            NoteDTO noteDTO = NoteMapper.MapToDTO(note);
+            return noteDTO;
         }
 
         public IEnumerable<NoteDTO> GetNotes()
         {
-            throw new NotImplementedException();
+            var notes = Database.Notes.GetAll();
+            IEnumerable<NoteDTO> notesDTO = new List<NoteDTO>();
+            foreach (var item in notes)
+            {
+                notesDTO.Append(NoteMapper.MapToDTO(item));
+            }
+            return notesDTO;
         }
 
         public void MakeNote(NoteDTO noteDTO)
