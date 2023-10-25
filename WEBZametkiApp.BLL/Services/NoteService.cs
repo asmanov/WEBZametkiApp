@@ -41,12 +41,14 @@ namespace WEBZametkiApp.BLL.Services
         public IEnumerable<NoteDTO> GetNotes()
         {
             var notes = Database.Notes.GetAll();
-            IEnumerable<NoteDTO> notesDTO = new List<NoteDTO>();
+            IEnumerable<NoteDTO> resultDtos = new List<NoteDTO>();
             foreach (var item in notes)
             {
-                notesDTO.Append(NoteMapper.MapToDTO(item));
+                NoteDTO noteDTO = new NoteDTO();
+                noteDTO = NoteMapper.MapToDTO(item);
+                resultDtos = resultDtos.Concat(new[] { noteDTO });
             }
-            return notesDTO;
+            return resultDtos;
         }
 
         public void MakeNote(NoteDTO noteDTO)

@@ -31,7 +31,8 @@ namespace WEBZametkiApp.DAL.Repositories
 
         public IEnumerable<Note> GetAll()
         {
-            return db.Notes;
+            var result = db.Notes.ToList();
+            return result;
         }
 
         public Note GetById(int id)

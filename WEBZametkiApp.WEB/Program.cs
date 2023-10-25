@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<NoteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defaultconnection"), 
     x => x.MigrationsAssembly("WEBZametkiApp.WEB")));
 //builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddTransient<INoteService, NoteService>();
 
 builder.Services.AddScoped<IUnitOfWork, WEBZametkiApp.DAL.Repositories.EFUnitOfWork>();
 
